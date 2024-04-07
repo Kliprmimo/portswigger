@@ -41,8 +41,8 @@ def get_session_key(response):
     else:
         raise ValueError("Session ID not found.")
 
-url = '0afb00c7034cf2828127a21a005100c2.web-security-academy.net'
-session_key = '5T7spbW6sJm3jtiX9QiNqbnJtjEpj9JB'
+url = ''
+session_key = ''
 path= '/login'
 
 HEADERS = {'Host': url,
